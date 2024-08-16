@@ -48,24 +48,16 @@
           <v-dialog v-model="dialog" max-width="500">
             <v-card class="elevation-3" style="border-radius: 16px">
               <!-- 헤더 부분 -->
-              <v-card-title
-                class="text-h5"
-                style="
+              <v-card-title class="text-h5" style="
                   background-color: #37474f;
                   color: white;
                   border-top-left-radius: 16px;
                   border-top-right-radius: 16px;
-                "
-              >
+                ">
                 <v-row align="center">
                   <v-col cols="10"> 팀 탈퇴 </v-col>
                   <v-col cols="2" class="text-right">
-                    <v-btn
-                      icon
-                      @click="closeDialog"
-                      class="white--text"
-                      style="padding: 0"
-                    >
+                    <v-btn icon @click="closeDialog" class="white--text" style="padding: 0">
                       <v-icon>mdi-close</v-icon>
                     </v-btn>
                   </v-col>
@@ -74,10 +66,7 @@
 
               <v-card-text style="padding: 24px">
                 <!-- 경고 메시지 부분 -->
-                <v-row
-                  class="align-center"
-                  style="background-color: #ffebee; padding: 16px; border-radius: 8px"
-                >
+                <v-row class="align-center" style="background-color: #ffebee; padding: 16px; border-radius: 8px">
                   <v-icon color="red" size="36">mdi-alert-circle-outline</v-icon>
                   <p class="text-h6 ml-2" style="margin-top: 15px; color: #616161">
                     정말 팀을 <strong style="color: #d32f2f">탈퇴</strong> 하시겠습니까?
@@ -89,9 +78,7 @@
                 <!-- 주의사항 문구 부분 -->
                 <v-row>
                   <v-col>
-                    <div
-                      style="background-color: #f5f5f5; padding: 16px; border-radius: 8px"
-                    >
+                    <div style="background-color: #f5f5f5; padding: 16px; border-radius: 8px">
                       <v-row align="center">
                         <v-col cols="1" class="text-center">
                           <v-icon color=" #d32f2f">mdi-alert-outline</v-icon>
@@ -127,29 +114,21 @@
 
               <!-- 동의 버튼 부분 -->
               <v-card-actions class="justify-center" style="padding-bottom: 24px">
-                <v-btn
-                  @click="confirmDeletion"
-                  style="
+                <v-btn @click="confirmDeletion" style="
                     background-color: #d32f2f;
                     color: white;
                     font-size: 18px;
                     height: 56px;
                     width: 160px;
                     border-radius: 28px;
-                  "
-                >
+                  ">
                   동의
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
 
-          <v-avatar
-            v-for="member in projectDetail.projectMembers"
-            :key="member.userId"
-            class="ma-2"
-            size="large"
-          >
+          <v-avatar v-for="member in projectDetail.projectMembers" :key="member.userId" class="ma-2" size="large">
             <img :src="member.userProfile" alt="User profile" />
           </v-avatar>
 
@@ -161,17 +140,11 @@
               <v-card-title class="headline">사용자 초대</v-card-title>
               <v-card-text>
                 초대할 사용자의 이메일을 입력해주세요
-                <v-text-field
-                  v-model="inviteEmail"
-                  label="이메일"
-                  required
-                ></v-text-field>
+                <v-text-field v-model="inviteEmail" label="이메일" required></v-text-field>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="showInviteModal = false"
-                  >취소</v-btn
-                >
+                <v-btn color="blue darken-1" text @click="showInviteModal = false">취소</v-btn>
                 <v-btn color="blue darken-1" text @click="inviteMembers">초대</v-btn>
               </v-card-actions>
             </v-card>
@@ -182,52 +155,58 @@
       <!-- Scheduler -->
       <v-row class="scheduler-row">
         <v-col cols="9">
-          <DxScheduler
-            time-zone="Asia/Seoul"
-            id="scheduler"
-            :data-source="appointments"
-            :current-date="currentDate"
-            :views="views"
-            :height="600"
-            :start-day-hour="1"
-            :end-day-hour="23"
-            :editing="true"
-            :on-appointment-updated="onAppointmentUpdated"
-            :show-all-day-panel="false"
-          >
-            <DxAppointmentDragging
-              :group="draggingGroupName"
-              :on-remove="onAppointmentRemove"
-              :on-add="onAppointmentAdd"
-            />
+          <DxScheduler time-zone="Asia/Seoul" id="scheduler" :data-source="appointments" :current-date="currentDate"
+            :views="views" :height="600" :start-day-hour="1" :end-day-hour="23" :editing="true"
+            :on-appointment-updated="onAppointmentUpdated" :show-all-day-panel="false">
+            <DxAppointmentDragging :group="draggingGroupName" :on-remove="onAppointmentRemove"
+              :on-add="onAppointmentAdd" />
             <DxEditing :allow-updating="allowUpdating" />
             <DxScrolling mode="virtual" />
           </DxScheduler>
         </v-col>
-        <v-col cols="3" class="block-list-col">
-          <DxScrollView id="scroll" class="task-scroll-view">
-            <DxDraggable
-              id="list"
-              :group="draggingGroupName"
-              :on-drag-start="onListDragStart"
-              data="tasks.length > 0 ? 'dropArea' : 'emptyArea'"
-            >
-              <div v-if="tasks.length === 0" class="empty-list">
-                Drop here to add to the list
+        <v-col cols="3" style="width: 300px;">
+          <DxScrollView id="scroll" class="block-scroll-view">
+            <DxDraggable id="list" :group="draggingGroupName" :on-drag-start="onListDragStart"
+              data="blocks.length > 0 ? 'dropArea' : 'emptyArea'">
+              <h2>BLOCK LIST</h2>
+              <!-- 카테고리 버튼 : 누르면 해당 카테고리만, 다시 누르면 전체 조회. -->
+              <div class="category-buttons-wrapper">
+                <div class="category-buttons">
+                  <v-btn v-for="(color, category) in categoryColors" :key="category"
+                    :style="{ backgroundColor: `rgb(${color.join(',')})`, color: '#fff' }"
+                    @click="filterByCategory(category)">
+                    #{{ categoryMap[category] }}
+                  </v-btn>
+                </div>
               </div>
-              <DxDraggable
-                time-zone="Asia/Seoul"
-                v-for="task in tasks"
-                :key="task.blockId"
-                :clone="true"
-                :group="draggingGroupName"
-                :data="task"
-                :on-drag-start="onItemDragStart"
-                :on-drag-end="onItemDragEnd"
-                class="item dx-card"
-              >
-                {{ task.title }}
+
+
+              <!-- 좋아요 수에 따른 블럭 정렬 -->
+              <DxDraggable time-zone="Asia/Seoul" v-for="block in sortedFilteredDataSource" :clone="true"
+                :key="block.blockId" :on-drag-start="onItemDragStart" :on-drag-end="onItemDragEnd"
+                :group="draggingGroupName" :style="getStyle(block.category, block.heartCount)"
+                @click="updateBlock(block)">
+                <div class="block-title">
+                  {{ block.title }}
+                </div>
+                <div class="block-heart">
+                  <!-- 좋아요 눌린 블럭은 하트 아이콘으로 표시 -->
+                  <v-icon @click.stop="toggleLike(block)">
+                    <!-- 좋아요 상태에 따라 아이콘 변경 -->
+                    <template v-if="block.liked">
+                      mdi-heart
+                    </template>
+                    <template v-else>
+                      mdi-heart-outline
+                    </template>
+                  </v-icon>
+                  <!-- 좋아요 수 확인 -->
+                  <span class="heart-count">{{ block.heartCount }}</span>
+                </div>
               </DxDraggable>
+
+              <!-- Block 생성 버튼 -->
+              <v-btn @click="createTemporaryBlock" color="primary" class="create-button">블럭 생성</v-btn>
             </DxDraggable>
           </DxScrollView>
         </v-col>
@@ -258,7 +237,7 @@ const draggingGroupName = ref("appointmentsGroup");
 const views = ref([]);
 const currentDate = ref(new Date());
 const projectDetail = ref(null);
-const tasks = ref([]);
+const blocks = ref([]);
 const appointments = ref([]);
 const user = computed(() => store.getters.user);
 const showInviteModal = ref(false);
@@ -295,24 +274,24 @@ onMounted(async () => {
   }
 });
 
-async function fetchTasks() {
-  try {
-    const response = await axios.get(
-      `http://localhost:8088/api/v1/project/${projectId}/not/active/block/list`
-    );
-    tasks.value = response.data.result.map((block) => ({
-      id: block.blockId,
-      title: block.title,
-      content: block.content,
-      startTime: block.startTime,
-      endTime: block.endTime,
-      // 필요한 경우 추가 필드를 매핑합니다
-    }));
-    console.log("tasks data : ", tasks.value);
-  } catch (error) {
-    console.error("Failed to fetch tasks:", error);
-  }
-}
+// async function fetchblocks() {
+//   try {
+//     const response = await axios.get(
+//       `http://localhost:8088/api/v1/project/${projectId}/not/active/block/list`
+//     );
+//     blocks.value = response.data.result.map((block) => ({
+//       id: block.blockId,
+//       title: block.title,
+//       content: block.content,
+//       startTime: block.startTime,
+//       endTime: block.endTime,
+//       // 필요한 경우 추가 필드를 매핑합니다
+//     }));
+//     console.log("blocks data : ", blocks.value);
+//   } catch (error) {
+//     console.error("Failed to fetch blocks:", error);
+//   }
+// }
 
 async function fetchAppointments() {
   try {
@@ -333,7 +312,7 @@ async function fetchAppointments() {
 }
 
 onMounted(() => {
-  fetchTasks();
+  // fetchblocks();
   fetchAppointments();
   store.dispatch("fetchUser");
 });
@@ -373,7 +352,7 @@ async function onAppointmentRemove({ itemData }) {
 
       appointments.value = [...appointments.value];
       appointments.value.splice(index, 1);
-      tasks.value = [...tasks.value, itemData];
+      blocks.value = [...blocks.value, itemData];
     } catch (error) {
       console.error("Failed to Remomve block:", error);
     }
@@ -382,12 +361,14 @@ async function onAppointmentRemove({ itemData }) {
 
 // 끌어다 놓기 O
 async function onAppointmentAdd(e) {
-  console.log("Before add tv :", tasks.value);
+  console.log("Before add tv :", blocks.value);
   console.log("Before add av :", appointments.value);
   console.log("e.itemData.blockId", e.itemData.id);
+  console.log(e)
+
 
   if (e.fromData) {
-    const index = tasks.value.indexOf(e.fromData);
+    const index = blocks.value.indexOf(e.fromData);
 
     if (index >= 0) {
       const blockId = e.itemData.id;
@@ -408,12 +389,12 @@ async function onAppointmentAdd(e) {
       console.log(response);
 
       if (index >= 0) {
-        // tasks에 해당 task가 존재하면
-        tasks.value = [...tasks.value]; // tasks를 복사하여 갱신
-        tasks.value.splice(index, 1); // tasks에서 해당 task를 제거
+        // blocks에 해당 block가 존재하면
+        blocks.value = [...blocks.value]; // blocks를 복사하여 갱신
+        blocks.value.splice(index, 1); // blocks에서 해당 block를 제거
         appointments.value = [...appointments.value, e.itemData]; // appointments에 추가
       }
-      console.log("after tv :", tasks.value);
+      console.log("after tv :", blocks.value);
       console.log("after av :", appointments.value);
     }
   } else {
@@ -462,6 +443,7 @@ function onListDragStart(e) {
 
 function onItemDragStart(e) {
   e.itemData = e.fromData;
+  console.log(e.itemData)
 }
 
 function onItemDragEnd(e) {
@@ -535,6 +517,219 @@ onMounted(() => {
 });
 </script>
 
+<script>
+import "devextreme/dist/css/dx.light.css";
+import { mdiHeart, mdiHeartOutline } from '@mdi/js';
+
+export default {
+  components: {
+    DxScheduler,
+  },
+
+  data() {
+    return {
+      dataSource: [],
+      currentDate: new Date(),
+      temporaryBlockId: 0,
+      selectedBlock: null,
+      maxHeartCount: 10,
+      pageSize: 10,
+      hasMoreData: true,
+      dialog: false,
+      selectedCategory: null,
+      categoryMap: {
+        SPOT: "명소",
+        RESTAURANT: "식당",
+        CAFE: "카페",
+        ETC: "기타"
+      },
+      categoryColors: {
+        SPOT: [255, 182, 193],
+        CAFE: [255, 180, 110],
+        RESTAURANT: [173, 216, 230],
+        ETC: [192, 192, 192],
+      },
+      mdiHeart, // mdi-heart 아이콘 추가
+      mdiHeartOutline // mdi-heart-outline 아이콘 추가
+    };
+  },
+
+  computed: {
+    sortedDataSource() {
+      return this.dataSource
+        ? this.dataSource.slice().sort((a, b) => b.heartCount - a.heartCount)
+        : [];
+    },
+    sortedFilteredDataSource() {
+      if (this.selectedCategory === null) {
+        return this.sortedDataSource;
+      }
+      
+      return this.sortedDataSource.filter(
+        (block) => block.category === this.selectedCategory,
+      );
+    },
+    translatedCategories() {
+      return Object.keys(this.categoryMap).map(category => ({
+        category,
+        label: this.categoryMap[category],
+        color: this.categoryColors[category]
+      }));
+    }
+  },
+
+  methods: {
+    async fetchData() {
+      if (!this.hasMoreData) return;
+      try {
+        const projectId = 1;
+        // 카테고리를 파라미터 형식으로 전달
+        const response = await axios.get(
+          `http://localhost:8088/api/v1/project/${projectId}/not/active/block/list`);
+        const blockList = response.data.result;
+        console.log(response);
+        if (blockList && Array.isArray(blockList)) {
+          // 서버에서 받아온 isHearted 값을 liked로 설정
+          this.dataSource = blockList.map(block => ({
+            ...block,
+            liked: block.isHearted  // 서버에서 받아온 isHearted 값을 liked로 설정
+          }));
+
+          // if (blockList && Array.isArray(blockList)) {
+          //   this.dataSource = blockList.map(block => ({
+          //     ...block,
+          //     liked: block.liked || false,  // 서버에서 받은 좋아요 상태를 DB 반영
+          //   }));
+
+        } else {
+          console.error("잘못된 데이터 형식입니다.");
+        }
+        this.hasMoreData = false;
+      } catch (error) {
+        console.error("데이터를 가져오는데 오류가 발생했습니다.");
+      }
+    },
+
+    async onAppointmentUpdated(e) {
+      const updatedBlock = e.appointmentData;
+      const url = updatedBlock.active
+        ? `/block/addDate`
+        : `/block/${updatedBlock.id}/not/active`;
+      try {
+        await axios.patch(url, updatedBlock);
+      } catch (error) {
+        console.error("업데이트 중 오류 발생 !");
+      }
+    },
+
+    createTemporaryBlock() {
+      const newBlock = {
+        id: `temp-${this.temporaryBlockId++}`,
+        title: "새 블럭",
+        projectId: "1",
+        category: "",
+        heartCount: 0,
+        liked: false, // 초기 상태 추가
+      };
+      this.dataSource.push(newBlock);
+      this.selectedBlock = { ...newBlock };
+      this.dialog = true;
+    },
+
+    updateBlock(block) {
+      const blockId = block.blockId || block.id;
+      if (!blockId) {
+        console.error("Block ID가 누락되었습니다.");
+        return;
+      }
+      this.$router.push({ name: 'BlockBoard', params: { blockId } });
+    },
+
+    async toggleLike(block) {
+      const wasLiked = block.liked;
+      const newHeartCount = wasLiked ? block.heartCount - 1 : block.heartCount + 1;
+      block.liked = !wasLiked;
+      block.heartCount = newHeartCount;
+      try {
+        await axios.post(
+          `http://localhost:8088/api/v1/block/${block.blockId}/heart`,
+          {}, // 빈 본문으로 요청
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 헤더에 포함
+            },
+          }
+        );
+      } catch (error) {
+        console.error("좋아요 업데이트 중 오류 발생:", error);
+        // 업데이트 실패 시 로컬에서 변경 사항 되돌리기
+        block.liked = wasLiked;
+        block.heartCount = wasLiked ? block.heartCount + 1 : block.heartCount - 1;
+      }
+    },
+
+    async handleUpdate(updatedBlock) {
+      try {
+        const response = await axios.patch(
+          `http://localhost:8088/api/v1/block/detail/${updatedBlock.id}`,
+          updatedBlock,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          alert("블럭이 성공적으로 업데이트되었습니다.");
+          this.fetchData(); // 업데이트 후 데이터 새로고침
+          this.closeDialog();
+        }
+      } catch (error) {
+        console.error("블럭 업데이트 오류:", error);
+        alert("블럭 업데이트 중 오류가 발생했습니다.");
+      }
+    },
+
+    closeDialog() {
+      this.dialog = false;
+    },
+
+    appointmentTemplate(data) {
+      return {
+        template: `<div class="${data.appointmentData.category}" :style="getStyle(data.appointmentData.category, data.appointmentData.heartCount)">${data.appointmentData.name}</div>`,
+      };
+    },
+
+    getStyle(category, heartCount) {
+      const baseColor = this.categoryColors[category] || this.categoryColors["ETC"];
+      const minFactor = 0.9;
+      const maxFactor = 1.3;
+      const lightnessFactor = maxFactor - ((heartCount / this.maxHeartCount) * (maxFactor - minFactor));
+      const [r, g, b] = baseColor.map(c => Math.round(c * lightnessFactor));
+      return {
+        backgroundColor: `rgb(${r}, ${g}, ${b})`,
+        padding: "20px",
+        margin: "10px 0",
+        borderRadius: "5px",
+        color: "#000",
+      };
+    },
+
+    filterByCategory(category) {
+      if (this.selectedCategory === category) {
+        this.selectedCategory = null;
+      } else {
+        this.selectedCategory = category;
+      }
+    },
+  },
+
+  mounted() {
+    this.fetchData();
+  },
+};
+</script>
+
 <style scoped>
 .project-title {
   font-size: 40px;
@@ -552,18 +747,7 @@ onMounted(() => {
   width: 900px;
 }
 
-.block-list-col {
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 2px;
-  bottom: 0;
-  width: 300px; /* 고정된 너비 */
-  background-color: #424242;
-  overflow-y: auto; /* 스크롤 가능하도록 설정 */
-}
-
-.task-scroll-view {
+.block-scroll-view {
   padding: 16px;
 }
 
@@ -581,24 +765,32 @@ onMounted(() => {
   opacity: 0.5;
 }
 
-.dx-draggable-dragging > * {
+.dx-draggable-dragging>* {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 .empty-list {
-  min-height: 100px; /* 높이를 늘려 더 큰 드롭 영역 확보 */
-  background-color: #f5f5f5; /* 배경색을 추가하여 눈에 잘 띄게 */
-  border: 2px dashed #ccc; /* 시각적인 구분을 위해 테두리 추가 */
+  min-height: 100px;
+  /* 높이를 늘려 더 큰 드롭 영역 확보 */
+  background-color: #f5f5f5;
+  /* 배경색을 추가하여 눈에 잘 띄게 */
+  border: 2px dashed #ccc;
+  /* 시각적인 구분을 위해 테두리 추가 */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 16px;
   color: #666;
-  position: relative; /* 정적 위치를 유지하여 클릭해도 움직이지 않도록 */
-  cursor: default; /* 기본 커서로 설정하여 드래그되지 않도록 */
-  user-select: none; /* 텍스트가 선택되지 않도록 */
-  pointer-events: none; /* 클릭 이벤트 무시 */
-  -webkit-user-drag: none; /* 드래그 방지 */
+  position: relative;
+  /* 정적 위치를 유지하여 클릭해도 움직이지 않도록 */
+  cursor: default;
+  /* 기본 커서로 설정하여 드래그되지 않도록 */
+  user-select: none;
+  /* 텍스트가 선택되지 않도록 */
+  pointer-events: none;
+  /* 클릭 이벤트 무시 */
+  -webkit-user-drag: none;
+  /* 드래그 방지 */
 }
 </style>

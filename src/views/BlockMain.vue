@@ -9,7 +9,13 @@
             :editing="{ allowUpdating: false, allowDeleting: false, allowAdding: false }" />
         </v-col>
         <!-- Block List -->
-        <v-col cols="12" md="4" class="block-list" ref="blockList">
+        <!-- <DxDraggable cols="12" md="4" class="block-list" ref="blockList"> -->
+          <DxDraggable
+              id="list"
+              :group="draggingGroupName"
+              :on-drag-start="onListDragStart"
+              data="tasks.length > 0 ? 'dropArea' : 'emptyArea'"
+            >
           <h2>BLOCK LIST</h2>
           <!-- 카테고리 버튼 : 누르면 해당 카테고리만, 다시 누르면 전체 조회. -->
           <div class="category-buttons-wrapper">
@@ -23,8 +29,10 @@
           </div>
           <!-- 좋아요 수에 따른 블럭 정렬 -->
           <v-list>
-            <v-list-item v-for="block in sortedFilteredDataSource" :key="block.id"
-              :style="getStyle(block.category, block.heartCount)" @click="updateBlock(block, getStyle(block.category, block.heartCount))">
+            <DxDraggable time-zone="Asia/Seoul" v-for="block in sortedFilteredDataSource" 
+            :clone="true" :key="block.id" :on-drag-start="onItemDragStart"
+                :on-drag-end="onItemDragEnd"
+              :style="getStyle(block.category, block.heartCount)" @click="updateBlock(block)">
               <div class="block-title">
                 {{ block.title }}
               </div>
@@ -42,17 +50,21 @@
                 <!-- 좋아요 수 확인 -->
                 <span class="heart-count">{{ block.heartCount }}</span>
               </div>
-            </v-list-item>
+            </DxDraggable>
           </v-list>
 
           <!-- Block 생성 버튼 -->
           <v-btn @click="createTemporaryBlock" color="primary" class="create-button">블럭 생성</v-btn>
-        </v-col>
+        </DxDraggable>
       </v-row>
     </v-container>
     <FooterComponent />
   </v-app>
 </template>
+
+<script setup>
+import DxDraggable from "devextreme-vue/draggable";
+</script>
 
 <script>
 import "devextreme/dist/css/dx.light.css";
@@ -176,13 +188,12 @@ export default {
       this.dialog = true;
     },
 
-    updateBlock(block, getStyle) {
+    updateBlock(block) {
     const blockId = block.blockId || block.id;
     if (!blockId) {
       console.error("Block ID가 누락되었습니다.");
       return;
     }
-    localStorage.setItem('backgroundColor', getStyle.backgroundColor)
     this.$router.push({ name: 'BlockBoard', params: { blockId } });
   },
 
@@ -251,7 +262,7 @@ export default {
         backgroundColor: `rgb(${r}, ${g}, ${b})`,
         padding: "20px",
         margin: "10px 0",
-        borderRadius: "10px !important",
+        borderRadius: "5px",
         color: "#000",
       };
     },
